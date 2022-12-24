@@ -6,11 +6,11 @@ gifs = os.listdir("gokugifs")
 
 
 
-def writeText(gif, ruleid :int , text:str,filename:str = "rule.gif"):
+def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
     frames = []
     gif.seek(0) # go to the first frame of the gif
     frame = ImageDraw.Draw(gif) # create a draw object to draw on the gif
-    font = ImageFont.truetype("impact.ttf", 20) # create a font object
+    font = ImageFont.truetype("impact.ttf", int(gif.width / 20) ) # create a font object
 
     lines = textwrap.wrap(text, width=int(gif.width / 20)) #we wrap the text to fit the width of the gif
     _, _, ruleWidth, _ = frame.textbbox((0, 0), f"Kural {str(ruleid)}",font=font) # calculate the width and height of the text
@@ -41,7 +41,7 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule.gif"):
 
         frames.append(frame)
 
-    frames[0].save(filename + ".gif", save_all=True, append_images=frames[1:], duration=gif.info["duration"])
+    frames[0].save(filename + ".gif", save_all=True, append_images=frames[1:])
     return filename + ".gif"
 
 #image = writeText(Image.open("gokugifs/" + random.choice(gifs)),1,"adsadlas")
