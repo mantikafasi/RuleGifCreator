@@ -36,7 +36,7 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
         for i, line in enumerate(lines[::-1]):
             _, _, descriptionWidth, descriptionHeight = draw.textbbox((0, 0), line,font=font) # calculate the width and height of the text
 
-            draw.text(((width - descriptionWidth) / 2 ,height - 30 - i * descriptionHeight), line, fill="white",font=font)
+            draw.text(((width - descriptionWidth) / 2 ,height - 50 - i * descriptionHeight), line, fill="white",font=font)
         frame.background = frame.convert("RGBA")
 
         frames.append(frame)
