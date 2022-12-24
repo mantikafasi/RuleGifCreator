@@ -10,7 +10,7 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
     frames = []
     gif.seek(0) # go to the first frame of the gif
     frame = ImageDraw.Draw(gif) # create a draw object to draw on the gif
-    font = ImageFont.truetype("impact.ttf", int(gif.width / 20) ) # create a font object
+    font = ImageFont.truetype("impact.ttf", int(gif.width / 10) ) # create a font object
 
     lines = textwrap.wrap(text, width=int(gif.width / 20)) #we wrap the text to fit the width of the gif
     _, _, ruleWidth, _ = frame.textbbox((0, 0), f"Kural {str(ruleid)}",font=font) # calculate the width and height of the text
@@ -36,7 +36,7 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
         for i, line in enumerate(lines[::-1]):
             _, _, descriptionWidth, descriptionHeight = draw.textbbox((0, 0), line,font=font) # calculate the width and height of the text
 
-            draw.text(((width - descriptionWidth) / 2 ,height - 50 - i * descriptionHeight), line, fill="white",font=font)
+            draw.text(((width - descriptionWidth) / 2 ,height - 5 - ((i + 1) * descriptionHeight)), line, fill="white",font=font)
         frame.background = frame.convert("RGBA")
 
         frames.append(frame)
@@ -44,5 +44,6 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
     frames[0].save(filename + ".gif", save_all=True, append_images=frames[1:])
     return filename + ".gif"
 
-#image = writeText(Image.open("gokugifs/" + random.choice(gifs)),1,"adsadlas")
-#os.system("rule.gif")
+if __name__ == "__main__":
+    writeText(Image.open("gokugifs/" + random.choice(gifs)),1,"adsadlas")
+    os.system("rule.gif")
