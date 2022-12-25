@@ -32,11 +32,16 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
         width = frame.width
         height = frame.height
 
-        draw.text(((width - ruleWidth) / 2 ,10), f"Kural {str(ruleid)}" , fill="white",font=font)
+        for x,y in [(0,1),(0,-1),(1,0),(-1,0),(0,0)]:
+            draw.text(((width - ruleWidth) / 2 + x ,10 + y), f"Kural {str(ruleid)}" , fill="white" if x == 0 and y == 0 else "black" ,font=font)
+        
         for i, line in enumerate(lines[::-1]):
             _, _, descriptionWidth, descriptionHeight = draw.textbbox((0, 0), line,font=font) # calculate the width and height of the text
 
-            draw.text(((width - descriptionWidth) / 2 ,height - 5 - ((i + 1) * descriptionHeight)), line, fill="white",font=font)
+            for x,y in [(0,1),(0,-1),(1,0),(-1,0),(0,0)]:
+                draw.text(((width - descriptionWidth) / 2 + x ,height - 5 - ((i + 1) * descriptionHeight + y)), line, fill="white" if x == 0 and y == 0 else "black",font=font)
+
+
         frame.background = frame.convert("RGBA")
 
         frames.append(frame)
