@@ -48,7 +48,8 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule",lang = "en"):
             for x,y in [(0,1),(0,-1),(1,0),(-1,0),(0,0)]:
                 draw.text(((width - descriptionWidth) / 2 + x ,height - 5 - ((i + 1) * descriptionHeight + y)), line, fill="white" if x == 0 and y == 0 else "black",font=font)
 
-        frame.info["background"] = (54, 57, 63) # we hate pillow
+        frame.info["background"] = (54, 57, 63,0) # we hate pillow & myself
+        
         frames.append(frame)
 
     frames[0].save(filename + ".gif", save_all=True, append_images=frames[1:],duration=gif.info["duration"],optimize = True)
@@ -56,5 +57,6 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule",lang = "en"):
 
 if __name__ == "__main__":
     gif = random.choice(gifs)
-    writeText(Image.open("gokugifs/" +  "cattM6gwOzGKI.webp"),1,"adsadlas",lang="tr")
+    print(gif)
+    writeText(Image.open("gokugifs/" +  "zAGHvXxJmyem4.gif"),1,"adsadlas",lang="en")
     os.system("rule.gif")
