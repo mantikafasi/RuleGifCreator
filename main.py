@@ -7,10 +7,13 @@ import random
 from PIL import Image, ImageDraw, ImageSequence
 import imagecreator
 from secrets import BOT_TOKEN
+from settings import Settings
 
 gifs = os.listdir("gokugifs")
 
 bot = commands.Bot(command_prefix='.',intents=Intents.default())
+GuildSettings = {}
+
 
 @bot.event
 async def on_ready():
@@ -30,10 +33,29 @@ async def on_ready():
 
 @bot.hybrid_command("rule")
 async def rule(ctx , rule_number: int, *, rule_text: str):
-    # get message id
-    
+
     filename = imagecreator.writeText(Image.open("gokugifs/" + random.choice(gifs)), rule_number, rule_text,str(ctx.message.id))
-    await ctx.send(file=discord.File(filename))
+    settings = getGuildSettings(ctx.guild.id)
+
+    if settings.getRuleChannel() != None:
+        await bot.get_channel(settings.getRuleChannel()).send(file=discord.File(filename))
+        await ctx.send("Done!")   
+    else:
+        await ctx.send(file=discord.File(filename))
+    
     os.remove(filename)
+
+@commands.has_permissions(administrator=True)
+@bot.hybrid_command("setrulechannel")
+async def setrulechannel(ctx, channel: discord.TextChannel):
+    settings = getGuildSettings(ctx.guild.id)
+    settings.setRuleChannel(channel.id)
+    await ctx.send(f"Rule channel set to {channel.mention}")
+
+def getGuildSettings(guildID):
+    if not guildID in GuildSettings:
+        GuildSettings[guildID] = Settings(guildID)
+    return GuildSettings[guildID]
+
 
 bot.run(BOT_TOKEN)
