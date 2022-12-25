@@ -48,7 +48,7 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule",lang = "en"):
             for x,y in [(0,1),(0,-1),(1,0),(-1,0),(0,0)]:
                 draw.text(((width - descriptionWidth) / 2 + x ,height - 5 - ((i + 1) * descriptionHeight + y)), line, fill="white" if x == 0 and y == 0 else "black",font=font)
 
-        if len(frame.info["background"]) == 4:
+        if frame.mode == "RGBA":
             frame.info["background"] = (54, 57, 63,0)
         else:
             frame.info["background"] = (54, 57, 63) # we hate pillow & myself
