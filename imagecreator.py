@@ -5,7 +5,6 @@ import textwrap
 gifs = os.listdir("gokugifs")
 
 
-
 def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
     frames = []
     gif.seek(0) # go to the first frame of the gif
@@ -41,15 +40,13 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
             for x,y in [(0,1),(0,-1),(1,0),(-1,0),(0,0)]:
                 draw.text(((width - descriptionWidth) / 2 + x ,height - 5 - ((i + 1) * descriptionHeight + y)), line, fill="white" if x == 0 and y == 0 else "black",font=font)
 
-
-        frame.background = frame.convert("RGBA")
-
+        frame.info["background"] = (54, 57, 63) # we hate pillow
         frames.append(frame)
 
-    frames[0].save(filename + ".webp", save_all=True, append_images=frames[1:])
-    return filename + ".webp"
+    frames[0].save(filename + ".gif", save_all=True, append_images=frames[1:],duration=gif.info["duration"],optimize = True)
+    return filename + ".gif"
 
 if __name__ == "__main__":
     gif = random.choice(gifs)
-    writeText(Image.open("gokugifs/" +  gif),1,"adsadlas")
-    os.system("rule.webp")
+    writeText(Image.open("gokugifs/" +  "cattM6gwOzGKI.webp"),1,"adsadlas")
+    os.system("rule.gif")
