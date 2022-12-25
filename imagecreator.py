@@ -46,9 +46,10 @@ def writeText(gif, ruleid :int , text:str,filename:str = "rule"):
 
         frames.append(frame)
 
-    frames[0].save(filename + ".gif", save_all=True, append_images=frames[1:])
-    return filename + ".gif"
+    frames[0].save(filename + ".webp", save_all=True, append_images=frames[1:])
+    return filename + ".webp"
 
 if __name__ == "__main__":
-    writeText(Image.open("gokugifs/" + random.choice(gifs)),1,"adsadlas")
-    os.system("rule.gif")
+    gif = random.choice(gifs)
+    writeText(Image.open("gokugifs/" +  gif),1,"adsadlas")
+    os.system("rule.webp")
