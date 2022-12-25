@@ -34,8 +34,8 @@ async def on_ready():
 @bot.hybrid_command("rule")
 async def rule(ctx , rule_number: int, *, rule_text: str):
 
-    filename = imagecreator.writeText(Image.open("gokugifs/" + random.choice(gifs)), rule_number, rule_text,str(ctx.message.id))
     settings = getGuildSettings(ctx.guild.id)
+    filename = imagecreator.writeText(Image.open("gokugifs/" + random.choice(gifs)), rule_number, rule_text,str(ctx.message.id),settings.getLanguage())
 
     if settings.getRuleChannel() != None:
         await bot.get_channel(settings.getRuleChannel()).send(file=discord.File(filename))
@@ -57,5 +57,15 @@ def getGuildSettings(guildID):
         GuildSettings[guildID] = Settings(guildID)
     return GuildSettings[guildID]
 
+languages = ["en","tr"]
+@commands.has_permissions(administrator=True)
+@bot.hybrid_command("setlanguage")
+async def setlanguage(ctx, language: str):
+    if not language in languages:
+        await ctx.send("Language not supported! use one of these languages: " + ", ".join(languages))
+        return
+    settings = getGuildSettings(ctx.guild.id)
+    settings.setLanguage(language)
+    await ctx.send(f"Language set to {language}")
 
 bot.run(BOT_TOKEN)

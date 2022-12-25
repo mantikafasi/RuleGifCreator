@@ -27,3 +27,12 @@ class Settings():
     
     def getRuleChannel(self):
         return self.settings["ruleChannel"]
+    
+    def setLanguage(self,language):
+        self.settings["language"] = language
+        self.setSettings()
+
+    def getLanguage(self):
+        if not "language" in self.settings:
+            return "en"
+        return self.settings["language"]
